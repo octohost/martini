@@ -1,11 +1,18 @@
 package main
 
-import "github.com/codegangsta/martini"
+import (
+  "github.com/codegangsta/martini"
+  "github.com/codegangsta/martini-contrib/render"
+)
 
 func main() {
   m := martini.Classic()
-  m.Get("/", func() string {
-    return "<html><head><title>martini</title></head><body><h1 id='title'>Hello world!</h1></body></html>"
+  // render html templates from templates directory
+  m.Use(render.Renderer())
+
+  m.Get("/", func(r render.Render) {
+    r.HTML(200, "hello", "octohost")
   })
+
   m.Run()
 }
